@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Datos del Sensor</title>
+  <style>
+    /* Estilos CSS */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #sensor-data {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Datos del Sensor</h1>
+  <div id="sensor-data"></div>
+
+  <!-- Importar las librerías de Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+  <script>
+    // Configuración de Firebase
+    var firebaseConfig = {
+      // Tus credenciales de Firebase
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Obtener una referencia a la base de datos
+    var database = firebase.database();
+
+    // Obtener los datos del sensor
+    var sensoresRef = database.ref('sensores');
+    sensoresRef.on('value', function(snapshot) {
+      var sensorData = snapshot.val();
+      var sensorDataDiv = document.getElementById('sensor-data');
+      sensorDataDiv.innerHTML = '';
+
+      for (var key in sensorData) {
+        var value = sensorData[key];
+        var p = document.createElement('p');
+        p.textContent = 'Sensor ' + key + ': ' + value;
+        sensorDataDiv.appendChild(p);
+      }
+    });
+  </script>
+</body>
+</html>
